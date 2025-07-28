@@ -1,0 +1,8 @@
+input_hdr/
+input_llie/
+output_hdr/
+output_llie/
+*.py~
+*.md~
+venv/
+__pycache__/
