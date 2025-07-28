@@ -29,7 +29,8 @@ def process_llie_images(input_folder, output_folder):
 
             print(f"Processing '{filename}'...")
             try:
-                llie_image = cv2.imread(llie_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR_RGB)
+                llie_image = cv2.imread(llie_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR)
+                llie_image = cv2.cvtColor(llie_image, cv2.COLOR_BGR2RGB)
                 img = to64F(llie_image)
 
                 if img is None:

@@ -29,7 +29,8 @@ def process_hdr_images(input_folder, output_folder):
 
             print(f"Processing '{filename}'...")
             try:
-                hdr_image = cv2.imread(hdr_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR_RGB)
+                hdr_image = cv2.imread(hdr_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR)
+                hdr_image = cv2.cvtColor(hdr_image, cv2.COLOR_BGR2RGB)
                 img = hdr_image.astype(np.float32)
                 
                 if img is None:

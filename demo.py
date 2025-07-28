@@ -17,7 +17,8 @@ if __name__ == "__main__":
 
     try:
         print(f"Processing {hdr_path}")
-        hdr_image = cv2.imread(hdr_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR_RGB)
+        hdr_image = cv2.imread(hdr_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR)
+        hdr_image = cv2.cvtColor(hdr_image, cv2.COLOR_BGR2RGB)
         img = hdr_image.astype(np.float32)
         
         if img is None:
@@ -44,7 +45,8 @@ if __name__ == "__main__":
 
     try:
         print(f"Processing {llie_path}")
-        llie_image = cv2.imread(llie_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR_RGB)
+        llie_image = cv2.imread(llie_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR)
+        llie_image = cv2.cvtColor(llie_image, cv2.COLOR_BGR2RGB)
         img = to64F(llie_image)
 
         if img is None:
