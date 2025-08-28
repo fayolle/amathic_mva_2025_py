@@ -1,9 +1,10 @@
-import cv2
 import numpy as np
 from skimage import exposure, color
 
+from boxfilter import boxfilter
 
-def guidedfilter(src, guide, radius=2, eps=0.01):
+
+def guidedfilter(src, guide, radius=5, eps=0.01):
     '''
     src: filtering grayscale image
     guide: guide grayscale image
@@ -11,12 +12,12 @@ def guidedfilter(src, guide, radius=2, eps=0.01):
     eps: regularization coefficient (default value: 0.01, same as MATLAB)
     '''
     ones = np.ones_like(guide)
-    N = cv2.boxFilter(ones, ddepth=-1, ksize=(radius,radius))
+    N = boxfilter(ones, radius)
 
-    mean_I = cv2.boxFilter(guide, ddepth=-1, ksize=(radius,radius)) / N
-    mean_p = cv2.boxFilter(src, ddepth=-1, ksize=(radius,radius)) / N
-    corr_I = cv2.boxFilter(guide*guide, ddepth=-1, ksize=(radius,radius)) / N
-    corr_Ip = cv2.boxFilter(guide*src, ddepth=-1, ksize=(radius,radius)) / N
+    mean_I = boxfilter(guide, radius) / N
+    mean_p = boxfilter(src, radius) / N
+    corr_I = boxfilter(guide*guide, radius) / N
+    corr_Ip = boxfilter(guide*src, radius) / N
 
     var_I = corr_I - mean_I * mean_I
     cov_Ip = corr_Ip - mean_I * mean_p
@@ -24,8 +25,8 @@ def guidedfilter(src, guide, radius=2, eps=0.01):
     a = cov_Ip / (var_I + eps)
     b = mean_p - a * mean_I
 
-    mean_a = cv2.boxFilter(a, ddepth=-1, ksize=(radius,radius)) / N
-    mean_b = cv2.boxFilter(b, ddepth=-1, ksize=(radius,radius)) / N
+    mean_a = boxfilter(a, radius) / N
+    mean_b = boxfilter(b, radius) / N
 
     q = mean_a * guide + mean_b
     return q
