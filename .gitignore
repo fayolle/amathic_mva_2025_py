@@ -6,3 +6,4 @@ output_llie/
 *.md~
 venv/
 __pycache__/
+tests/
