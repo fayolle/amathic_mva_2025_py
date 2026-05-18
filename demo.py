@@ -18,6 +18,11 @@ if __name__ == "__main__":
     try:
         print(f"Processing {hdr_path}")
         hdr_image = cv2.imread(hdr_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR)
+
+        if hdr_image is None:
+            print(f"Error: Could not read HDR image '{hdr_path}'. Skipping.")
+            sys.exit(1)
+        
         hdr_image = cv2.cvtColor(hdr_image, cv2.COLOR_BGR2RGB)
         img = hdr_image.astype(np.float32)
         
@@ -46,6 +51,11 @@ if __name__ == "__main__":
     try:
         print(f"Processing {llie_path}")
         llie_image = cv2.imread(llie_path, cv2.IMREAD_ANYDEPTH|cv2.IMREAD_COLOR)
+
+        if llie_image is None:
+            print(f"Error: Could not read image '{llie_path}'. Skipping.")
+            sys.exit(1)
+            
         llie_image = cv2.cvtColor(llie_image, cv2.COLOR_BGR2RGB)
         img = to64F(llie_image)
 
