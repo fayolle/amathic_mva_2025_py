@@ -33,6 +33,27 @@ def guidedfilter(src, guide, radius=5, eps=0.01):
 
 
 def imSlim(rgbIn, b):
+    """
+    Image enhancement with imSlim.
+
+    Parameters
+    ----------    
+    rgbIn : ndarray, shape (H, W, 3), dtype float64
+        RGB input image. 
+        For LDR images, values should lie in [0, 1].
+        HDR images may have values larger than 1, but are internally
+        normalized by their global maximum before RGB-to-HSV conversion.
+
+    b : float
+        Blend parameter in [0, 1] between the illumination-corrected value
+        channel and the CLAHE-adapted value channel.
+
+    
+    Returns
+    -------
+    rgbOut : ndarray, shape (H, W, 3), dtype float64
+        Enhanced RGB image with values approximately in [0, 1].
+    """
     rgbIn2 = np.copy(rgbIn)
     maxc = np.max(rgbIn)
 
