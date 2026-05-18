@@ -10,6 +10,22 @@ def to8U(img):
 
 
 def to64F(img):
-    if img.dtype == np.float64:
-        return img
-    return (1.0 / 255.0) * np.float64(img)
+    """
+    Convert image to float64.
+
+    uint8  -> divide by 255
+    uint16 -> divide by 65535
+    float  -> cast to float64 without rescaling
+    """
+    img = np.asarray(img)
+
+    if np.issubdtype(img.dtype, np.floating):
+        return img.astype(np.float64, copy=False)
+
+    if img.dtype == np.uint8:
+        return img.astype(np.float64) / 255.0
+
+    if img.dtype == np.uint16:
+        return img.astype(np.float64) / 65535.0
+
+    raise TypeError(f"Unsupported image dtype: {img.dtype}")
