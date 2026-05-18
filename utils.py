@@ -4,7 +4,9 @@ import numpy as np
 def to8U(img):
     if img.dtype == np.uint8:
         return img
-    return np.clip(np.uint8(255.0 * img), 0, 255)
+
+    img = np.clip(img, 0.0, 1.0)
+    return np.round(255.0*img).astype(np.uint8)
 
 
 def to64F(img):
