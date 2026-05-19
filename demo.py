@@ -24,7 +24,7 @@ if __name__ == "__main__":
             sys.exit(1)
         
         hdr_image = cv2.cvtColor(hdr_image, cv2.COLOR_BGR2RGB)
-        img = hdr_image.astype(np.float32)
+        img = hdr_image.astype(np.float64)
         
         if img is None:
             print(f"Error: Could not read HDR image '{hdr_path}'. Skipping.")
