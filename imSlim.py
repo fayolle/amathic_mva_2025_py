@@ -54,15 +54,13 @@ def imSlim(rgbIn, b):
     rgbOut : ndarray, shape (H, W, 3), dtype float64
         Enhanced RGB image with values approximately in [0, 1].
     """
-    rgbIn2 = np.copy(rgbIn)
+
+    #rgbIn2 = np.copy(rgbIn)
+    rgbIn2 = np.asarray(rgbIn, dtype=np.float64)
     maxc = np.max(rgbIn)
 
     if maxc > 0:
-        rgbIn2[:, :, 0] = rgbIn[:, :, 0] / maxc
-        rgbIn2[:, :, 1] = rgbIn[:, :, 1] / maxc
-        rgbIn2[:, :, 2] = rgbIn[:, :, 2] / maxc
-    else:
-        pass
+        rgbIn2 = rgbIn2 / maxc
 
     hsv = color.rgb2hsv(rgbIn2)
     v = hsv[:, :, 2]
