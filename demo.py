@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
         pil_image = Image.fromarray(processed_image)
         pil_image.save(png_path)
-        print(f"Saved '{base_name}.png'")
+        print(f"Saved '{png_path}'")
 
     except Exception as e:
         print(f"An error occurred while processing '{hdr_path}': {e}")
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
         pil_image = Image.fromarray(processed_image)
         pil_image.save(png_path)
-        print(f"Saved '{base_name}.png'")
+        print(f"Saved '{png_path}'")
         
     except Exception as e:
         print(f"An error occurred while processing '{llie_path}': {e}")
