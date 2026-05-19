@@ -4,20 +4,20 @@ from skimage import exposure, color
 from boxfilter import boxfilter
 
 
-def guidedfilter(src, guide, radius=5, eps=0.01):
+def guidedfilter(src, guide, neigh_size=5, eps=0.01):
     '''
     src: filtering grayscale image
     guide: guide grayscale image
-    radius: filter radius (default value: 5, same as MATLAB)
+    neigh_size: neighborhood size, equal to 2*radius+1 (default value: 5, same as MATLAB)
     eps: regularization coefficient (default value: 0.01, same as MATLAB)
     '''
     ones = np.ones_like(guide)
-    N = boxfilter(ones, radius)
+    N = boxfilter(ones, neigh_size)
 
-    mean_I = boxfilter(guide, radius) / N
-    mean_p = boxfilter(src, radius) / N
-    corr_I = boxfilter(guide*guide, radius) / N
-    corr_Ip = boxfilter(guide*src, radius) / N
+    mean_I = boxfilter(guide, neigh_size) / N
+    mean_p = boxfilter(src, neigh_size) / N
+    corr_I = boxfilter(guide*guide, neigh_size) / N
+    corr_Ip = boxfilter(guide*src, neigh_size) / N
 
     var_I = corr_I - mean_I * mean_I
     cov_Ip = corr_Ip - mean_I * mean_p
@@ -25,8 +25,8 @@ def guidedfilter(src, guide, radius=5, eps=0.01):
     a = cov_Ip / (var_I + eps)
     b = mean_p - a * mean_I
 
-    mean_a = boxfilter(a, radius) / N
-    mean_b = boxfilter(b, radius) / N
+    mean_a = boxfilter(a, neigh_size) / N
+    mean_b = boxfilter(b, neigh_size) / N
 
     q = mean_a * guide + mean_b
     return q
@@ -75,7 +75,7 @@ def imSlim(rgbIn, b):
     p = 1.0 - 0.2 * (0.5 + np.arctan(100 * mv - 5) / np.pi)
     r = 0.01
 
-    u = guidedfilter(v, v, radius=5, eps=0.01)
+    u = guidedfilter(v, v, neigh_size=5, eps=0.01)
     idx = (u < 0.0)
     u[idx] = 0.0 
     v = v / (u**p + r)
